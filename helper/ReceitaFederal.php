@@ -107,7 +107,9 @@ class ReceitaFederal {
 	}
 
 	public static function parserInformationQsa( $html ) {
-
+		preg_match('/R\$.*?,[0-9]{2}/', $html, $matchCapitalSocial);
+		$qsa = (isset($matchCapitalSocial[0])) ? $matchCapitalSocial[0] : 0;
+		return str_replace(',', '.', str_replace('.', '', str_replace('R$', '', $qsa)));
 	}
 
 }

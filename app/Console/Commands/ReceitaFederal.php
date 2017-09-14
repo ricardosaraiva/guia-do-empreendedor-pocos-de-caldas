@@ -53,12 +53,23 @@ class ReceitaFederal extends Command {
             exit;
         }
 
-        $dados = $http->request('GET', 'http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/Cnpjreva_Vstatus.asp?origem=comprovante&cnpj="23814734000100"', [
+        $dados = $http->request('GET', 'http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/Cnpjreva_Vstatus.asp?origem=comprovante&cnpj="27865757000102"', [
             'cookies' => $cookies
         ]);
 
-        $parser =  \Helper\ReceitaFederal::parserInformationBasic($dados->getBody()); 
-        var_dump($parser);
+        $parserInformationBasic =  \Helper\ReceitaFederal::parserInformationBasic($dados->getBody()); 
+
+        if($parserInformationBasic != false) {
+
+            $dados = $http->request('GET', 'http://www.receita.fazenda.gov.br/pessoajuridica/cnpj/cnpjreva/Cnpjreva_qsa.asp', [
+                'cookies' => $cookies
+            ]);
+
+            $parserQsa = \Helper\ReceitaFederal::parserInformationQsa($dados->getBody()); ;    
+        }
+
+        
+        
         exit;        
     }
 }
